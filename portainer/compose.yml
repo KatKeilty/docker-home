@@ -1,0 +1,17 @@
+name: portainer
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /share/Container/portainer:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

@@ -1,0 +1,23 @@
+name: gitea
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - USER_UID=${PUID}
+      - USER_GID=${PGID}
+      - GITEA__database__DB_TYPE=sqlite3
+      - GITEA__server__DOMAIN=gitea.${TAILSCALE_DOMAIN}
+      - GITEA__server__ROOT_URL=https://gitea.${TAILSCALE_DOMAIN}
+      - GITEA__server__SSH_DOMAIN=gitea.${TAILSCALE_DOMAIN}
+    volumes:
+      - ./data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
